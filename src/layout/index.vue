@@ -27,7 +27,7 @@
     </div>
 </template>
 <script setup lang="ts">
-import { ref, reactive, computed, markRaw } from "vue";
+import { ref, reactive, computed, markRaw, watch } from "vue";
 import { useRouter, useRoute, RouteRecordRaw } from "vue-router";
 import { routes } from "@/router";
 import menuItem from './item.vue';
@@ -70,6 +70,10 @@ function setMenuExpand(menu: RouteRecordRaw, path: string) {
 function getRouter(fullPath) {
     return router.getRoutes().find(r=> r.path === fullPath) || router.getRoutes()[0]
 }
+
+watch(()=> route.path, (newRoutePath)=> {
+    activeRoute.value = getRouter(newRoutePath)
+})
 
 
 // function findRoute(path: string, routeList: Array<RouteRecordRaw>): RouteRecordRaw {
